@@ -1,4 +1,4 @@
-# bicitech-cli
+# bicitech-cli ![npm](https://img.shields.io/npm/v/bicitech-cli)
 
 A JavaScript command line interface to quick build a web or rn app for bicitech.
 
