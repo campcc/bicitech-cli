@@ -35,6 +35,12 @@ module.exports = [
   },
   {
     type: "confirm",
+    name: "redux",
+    message: "do you need redux",
+    default: true,
+  },
+  {
+    type: "confirm",
     name: "eslint",
     message: "use a standard eslint config",
     default: true,
