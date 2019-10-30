@@ -16,7 +16,7 @@ type `bici init`, answer questions for builing,
 bici init
 ```
 
-<img src="https://raw.githubusercontent.com/campcc/assets/master/bicitech-cli.png" />
+![image.png](https://i.loli.net/2019/10/30/e6l7WgPubcUAwZS.png)
 
 ## License
 
