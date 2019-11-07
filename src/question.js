@@ -2,9 +2,9 @@ module.exports = [
   {
     type: "list",
     name: "type",
-    message: "select a type of project(web/app)",
+    message: "select a type of project(web/app/wap)",
     default: "web",
-    choices: ["web", "app"],
+    choices: ["web", "app", "wap"],
   },
   {
     type: "input",
@@ -13,7 +13,7 @@ module.exports = [
     default: "bici-web",
     default: function(answer) {
       const { type } = answer
-      const defaultName = type === "web" ? "bici-web" : "bici-app"
+      const defaultName = type === "web" ? "bici-web" : type === "wap" ? "bici-wap" : "bici-app"
       return defaultName
     },
   },
@@ -29,7 +29,7 @@ module.exports = [
     message: "description",
     default: function (answer) {
       const { type } = answer
-      const desc = type === 'web' ? 'A web app for bicitech.' : 'A rn app for bicitech.'
+      const desc = type === 'web' ? 'A web app for bicitech.' : type === "wap" ? "A wap app for bicitech" : 'A rn app for bicitech.'
       return desc
     },
   },
@@ -38,6 +38,10 @@ module.exports = [
     name: "redux",
     message: "do you need redux",
     default: true,
+    when: function(answer) {
+      const { type } = answer
+      return type === "web"
+    },
   },
   {
     type: "confirm",
