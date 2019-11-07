@@ -30,6 +30,14 @@ program
 if (program.init) {
   inquirer.prompt(questions).then(answers => {
     const { name, type, version, description, redux, eslint } = answers
+    if (type === "app") {
+      console.log(
+        chalk.yellow(
+          "\n  React Native app is not supported in this version, we will done this soon.\n"
+        )
+      )
+      process.exit()
+    }
     // get resolved destination paths
     const destination = destinationResolver(name)
     const isExist = fs.existsSync(name)
@@ -42,7 +50,9 @@ if (program.init) {
       )
     } else {
       console.log(
-        `\nCreating a new React ${type} app in ${chalk.greenBright(process.cwd())}.\n`
+        `\nCreating a new React ${type} app in ${chalk.greenBright(
+          process.cwd()
+        )}.\n`
       )
       const address = type === "web" ? url.web : url.wap
       downloader(address, destination.root)
