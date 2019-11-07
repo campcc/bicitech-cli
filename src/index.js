@@ -8,6 +8,7 @@ const inquirer = require("inquirer")
 const packageJson = require("../package.json")
 const downloader = require("../lib/download")
 const questions = require("./question")
+const url = require("./url")
 const omit = require("omit.js")
 const {
   unlinkSyncAll,
@@ -28,7 +29,7 @@ program
 
 if (program.init) {
   inquirer.prompt(questions).then(answers => {
-    const { name, version, description, redux, eslint } = answers
+    const { name, type, version, description, redux, eslint } = answers
     // get resolved destination paths
     const destination = destinationResolver(name)
     const isExist = fs.existsSync(name)
@@ -41,9 +42,10 @@ if (program.init) {
       )
     } else {
       console.log(
-        `\nCreating a new React app in ${chalk.greenBright(process.cwd())}.\n`
+        `\nCreating a new React ${type} app in ${chalk.greenBright(process.cwd())}.\n`
       )
-      downloader("campcc/bicitech-template-web", destination.root)
+      const address = type === "web" ? url.web : url.wap
+      downloader(address, destination.root)
         .then(() => {
           try {
             let coverData = { name, version, description }
@@ -54,7 +56,7 @@ if (program.init) {
             } = packageJsonData
             // remove travis yml
             unlinkSyncAll([destination.travis])
-            if (!redux) {
+            if (!redux && type === "web") {
               // update package.json dep if do not need redux
               const dependencies = omit(prefDep, [
                 "react-redux",
@@ -75,6 +77,7 @@ if (program.init) {
             if (!eslint) {
               const devDependencies = omit(prevDevDep, [
                 "babel-eslint",
+                "eslint",
                 "eslint-config-airbnb",
                 "eslint-config-prettier",
                 "eslint-plugin-babel",
